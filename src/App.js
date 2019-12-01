@@ -1,12 +1,11 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch, withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -26,6 +25,7 @@ const useStyles = makeStyles(theme => ({
   appBar: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
+    backgroundColor: 'white'
   },
   drawer: {
     width: drawerWidth,
@@ -35,14 +35,13 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
   },
   toolbar: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(3),
-  },
+  contentContainer: {
+    marginTop: 70,
+    width: '100%'
+  }
 }));
 
-function App() {
+function App({ history }) {
   const classes = useStyles();
   return (
     <div className="App">
@@ -50,9 +49,7 @@ function App() {
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
-            <Typography variant="h6" noWrap>
-              Permanent drawer
-            </Typography>
+
           </Toolbar>
         </AppBar>
         <Drawer
@@ -66,31 +63,44 @@ function App() {
           <div className={classes.toolbar} />
           <Divider />
           <List>
-            {['Distributors', 'Sales Page', 'Products', 'Customers'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
+            <ListItem button onClick={() => history.push('/distributors')}>
+              <ListItemIcon><InboxIcon /></ListItemIcon>
+              <ListItemText primary="Distributors" />
+            </ListItem>
+            <ListItem button onClick={() => history.push('/sales-page')}>
+              <ListItemIcon><MailIcon /></ListItemIcon>
+              <ListItemText primary="Sales Page" />
+            </ListItem>
+            <ListItem button onClick={() => history.push('/products')}>
+              <ListItemIcon><MailIcon /></ListItemIcon>
+              <ListItemText primary="Products" />
+            </ListItem>
+            <ListItem button onClick={() => history.push('/customers')}>
+              <ListItemIcon><MailIcon /></ListItemIcon>
+              <ListItemText primary="Customers" />
+            </ListItem>
           </List>
           <Divider />
           <List>
-            {['Settings', 'Support'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
+            <ListItem button onClick={() => history.push('/settings')}>
+              <ListItemIcon><MailIcon /></ListItemIcon>
+              <ListItemText primary="Settings" />
+            </ListItem>
+            <ListItem button onClick={() => history.push('/support')}>
+              <ListItemIcon><MailIcon /></ListItemIcon>
+              <ListItemText primary="Support" />
+            </ListItem>
           </List>
         </Drawer>
-        <BrowserRouter>
+
+        <div className={classes.contentContainer}>
           <Switch>
-            <Route path="/new" component={Distributors}/>
+            <Route path="/distributors" component={Distributors}/>
           </Switch>
-        </BrowserRouter>
+        </div>
       </div>
     </div>
   );
 }
 
-export default App;
+export default withRouter(App);

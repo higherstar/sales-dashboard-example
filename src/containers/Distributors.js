@@ -3,12 +3,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from "@material-ui/core/Paper/Paper";
 import Button from "@material-ui/core/Button/Button";
 import DeleteIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import CustomTable from "../components/CustomTable";
 
 const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(3),
+    padding: theme.spacing(3)
   },
   mainTitle: {
     padding: theme.spacing(3, 2),
@@ -46,6 +47,9 @@ function Distributors() {
             Export
           </Button>
         </div>
+      </Paper>
+      <Paper className={classes.mainTitle}>
+        <CustomTable />
       </Paper>
     </main>
   )
