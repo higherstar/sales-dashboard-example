@@ -11,8 +11,6 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -92,7 +90,7 @@ function EnhancedTableHead(props) {
         {headCells.map(headCell => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align={'right'}
             padding={'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -129,6 +127,7 @@ const useToolbarStyles = makeStyles(theme => ({
   root: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
+    marginTop: theme.spacing(2),
   },
   highlight:
     theme.palette.type === 'light'
@@ -272,78 +271,76 @@ export default function EnhancedTable() {
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <div className={classes.tableWrapper}>
-          <Table
-            className={classes.table}
-            aria-labelledby="tableTitle"
-            size={'medium'}
-            aria-label="enhanced table"
-          >
-            <EnhancedTableHead
-              classes={classes}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {stableSort(rows, getSorting(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+      {/*<EnhancedTableToolbar numSelected={selected.length} />*/}
+      <div className={classes.tableWrapper}>
+        <Table
+          className={classes.table}
+          aria-labelledby="tableTitle"
+          size={'medium'}
+          aria-label="enhanced table"
+        >
+          <EnhancedTableHead
+            classes={classes}
+            numSelected={selected.length}
+            order={order}
+            orderBy={orderBy}
+            onSelectAllClick={handleSelectAllClick}
+            onRequestSort={handleRequestSort}
+            rowCount={rows.length}
+          />
+          <TableBody>
+            {stableSort(rows, getSorting(order, orderBy))
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row, index) => {
+                const isItemSelected = isSelected(row.name);
+                const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      onClick={event => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.name}
-                      selected={isItemSelected}
-                    >
-                      {/*<TableCell padding="checkbox">*/}
-                        {/*<Checkbox*/}
-                          {/*checked={isItemSelected}*/}
-                          {/*inputProps={{ 'aria-labelledby': labelId }}*/}
-                        {/*/>*/}
-                      {/*</TableCell>*/}
-                      {/*<TableCell component="th" id={labelId} scope="row" padding="none">*/}
-                        {/*{row.name}*/}
-                      {/*</TableCell>*/}
-                      <TableCell align="right">{row.distributor}</TableCell>
-                      <TableCell align="right">{row.acctCreated}</TableCell>
-                      <TableCell align="right">{row.acctStatus}</TableCell>
-                      <TableCell align="right">{row.salesPage}</TableCell>
-                      <TableCell align="right">{row.balanceAvail}</TableCell>
-                      <TableCell align="right">{row.totalCollected}</TableCell>
-                      <TableCell align="right">{row.extra}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </Paper>
+                return (
+                  <TableRow
+                    hover
+                    onClick={event => handleClick(event, row.name)}
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={row.name}
+                    selected={isItemSelected}
+                  >
+                    {/*<TableCell padding="checkbox">*/}
+                      {/*<Checkbox*/}
+                        {/*checked={isItemSelected}*/}
+                        {/*inputProps={{ 'aria-labelledby': labelId }}*/}
+                      {/*/>*/}
+                    {/*</TableCell>*/}
+                    {/*<TableCell component="th" id={labelId} scope="row" padding="none">*/}
+                      {/*{row.name}*/}
+                    {/*</TableCell>*/}
+                    <TableCell align="right">{row.distributor}</TableCell>
+                    <TableCell align="right">{row.acctCreated}</TableCell>
+                    <TableCell align="right">{row.acctStatus}</TableCell>
+                    <TableCell align="right">{row.salesPage}</TableCell>
+                    <TableCell align="right">{row.balanceAvail}</TableCell>
+                    <TableCell align="right">{row.totalCollected}</TableCell>
+                    <TableCell align="right">{row.extra}</TableCell>
+                  </TableRow>
+                );
+              })}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </div>
   );
 }
