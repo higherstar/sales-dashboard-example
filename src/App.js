@@ -90,7 +90,7 @@ function App({ history }) {
         <CssBaseline />
         <AppBar position="fixed" className={clsx(classes.appBar, classes.customAppBar)}>
           <Toolbar>
-            <img width={109} src="/img/logo.png" />
+            <img width={109} src="/img/logo.png" alt="" />
           </Toolbar>
         </AppBar>
         <Drawer

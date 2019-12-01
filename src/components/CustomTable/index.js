@@ -6,7 +6,6 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -15,27 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { FilterIcon, DownloadIcon } from "../SvgIcons";
-
-function createData(distributor, acctCreated, acctStatus, salesPage, balanceAvail, totalCollected, extra) {
-  return { distributor, acctCreated, acctStatus, salesPage, balanceAvail, totalCollected, extra };
-}
-
-const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3, 1, ''),
-  createData('Donut', 452, 25.0, 51, 4.9, 1, ''),
-  createData('Eclair', 262, 16.0, 24, 6.0, 1),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 1),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1),
-  createData('Honeycomb', 408, 3.2, 87, 6.5, 1),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-  createData('Lollipop', 392, 0.2, 98, 0.0),
-  createData('Marshmallow', 318, 0, 81, 2.0),
-  createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0),
-];
+import { ThreeDots, IconLeft, IconRight } from '../SvgIcons';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -72,7 +51,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const { classes, order, orderBy, onRequestSort } = props;
   const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
@@ -80,14 +59,6 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow className={classes.tableHeader}>
-        {/*<TableCell padding="checkbox">*/}
-          {/*<Checkbox*/}
-            {/*indeterminate={numSelected > 0 && numSelected < rowCount}*/}
-            {/*checked={numSelected === rowCount}*/}
-            {/*onChange={onSelectAllClick}*/}
-            {/*inputProps={{ 'aria-label': 'select all desserts' }}*/}
-          {/*/>*/}
-        {/*</TableCell>*/}
         {headCells.map(headCell => (
           <TableCell
             style={{textAlign: headCell.id === 'distributor' ? 'left' : 'right'}}
@@ -96,6 +67,17 @@ function EnhancedTableHead(props) {
             padding={'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
+            {/* <span onClick={createSortHandler(headCell.id)}>
+              {headCell.label}
+              <span>
+                {orderBy !== headCell.id && (
+                  'not'
+                )}
+                {orderBy === headCell.id && (
+                  order === 'desc' ? 'desc' : 'asc'
+                )}
+              </span>
+            </span> */}
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={order}
@@ -229,16 +211,122 @@ const useStyles = makeStyles(theme => ({
         paddingRight: 30
       }
     }
+  },
+  tableBody: {
+    '& > tr > td': {
+      fontWeight: 'normal',
+      '&:first-child': {
+        paddingLeft: 30
+      },
+      '&:last-child': {
+        paddingRight: 30,
+        '& > svg': {
+          cursor: 'pointer'
+        }
+      }
+    }
+  },
+  profile: {
+    display: 'flex',
+    justifyContent: 'left'
+  },
+  profileLeft: {
+    display: 'flex',
+    alignItems: 'center',
+    '& > img': {
+      borderRadius: '50%',
+      width: 38,
+      height: 38
+    }
+  },
+  profileRight: {
+    textAlign: 'left',
+    paddingLeft: 15,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    '& > div:first-child': {
+      fontStyle: 'bold',
+      color: '#3E3F42',
+      fontSize: 14
+    },
+    '& > div:last-child': {
+      fontSize: 12,
+      color: '#9EA0A5',
+    },
+  },
+  status: {
+    minWidth: 67,
+    height: 24,
+    backgroundColor: '#F8F8F8',
+    border: '1px solid #E2E5ED',
+    borderRadius: 4,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    float: 'right'
+  },
+  active: {
+    backgroundColor: '#B0DFE5'
+  },
+  sales: {
+    minWidth: 40,
+    maxWidth: 40
+  },
+  pagination: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    padding: '15px 25px',
+    '& > span': {
+      width: 30,
+      height: 30,
+      marginLeft: 15,
+      border: 'solid 1px grey',
+      borderRadius: '50%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: 'pointer'
+    }
   }
 }));
 
-export default function EnhancedTable() {
+export default function EnhancedTable({ distributors, getDistributors }) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage] = React.useState(10);
+  const [rows, setRows] = React.useState([]);
+  const [rowsDetail, setRowsDetail] = React.useState([]);
+
+  React.useEffect(() => {
+    const rows = distributors.map(user => ({
+      id: user.id,
+      distributor: `${user.firstName} ${user.lastName}`,
+      acctCreated: user.registered,
+      acctStatus: user.isActive,
+      salesPage: 2,
+      balanceAvail: user.balance,
+      totalCollected: user.totalCollected,
+      extra: ''
+    }));
+    const rowsDetail = distributors.map(user => ({
+      id: user.id,
+      picture: user.picture,
+      email: user.email,
+      distributor: `${user.firstName} ${user.lastName}`,
+      acctCreated: user.registered,
+      acctStatus: user.isActive,
+      salesPage: 2,
+      balanceAvail: user.balance,
+      totalCollected: user.totalCollected,
+      extra: ''
+    }));
+    setRows(rows);
+    setRowsDetail(rowsDetail);
+  }, [distributors]);
 
   const handleRequestSort = (event, property) => {
     const isDesc = orderBy === property && order === 'desc';
@@ -275,22 +363,32 @@ export default function EnhancedTable() {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (newPage) => {
+    if (newPage < 0) return;
     setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    getDistributors(newPage + 1);
   };
 
   const isSelected = name => selected.indexOf(name) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - rows.length;
+
+  const getFormatedDate = (str) => {
+    const date = new Date(str);
+    const monthNames = [
+      "Jan", "Feb", "Mar",
+      "Apr", "May", "Jun", "Jul",
+      "Aug", "Sep", "Oct",
+      "Nov", "Dec"
+    ];
+    return `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+  }
+
+  const sortedRows = stableSort(rows, getSorting(order, orderBy));
+  const sortedRowsDetail = stableSort(rowsDetail, getSorting(order, orderBy));
 
   return (
     <div className={classes.root}>
-      {/*<EnhancedTableToolbar numSelected={selected.length} />*/}
       <div className={classes.tableWrapper}>
         <Table
           className={classes.table}
@@ -307,39 +405,40 @@ export default function EnhancedTable() {
             onRequestSort={handleRequestSort}
             rowCount={rows.length}
           />
-          <TableBody>
-            {stableSort(rows, getSorting(order, orderBy))
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+          <TableBody className={classes.tableBody}>
+            {sortedRows
               .map((row, index) => {
-                const isItemSelected = isSelected(row.name);
-                const labelId = `enhanced-table-checkbox-${index}`;
+                const isItemSelected = isSelected(row.id);
 
                 return (
                   <TableRow
                     hover
-                    onClick={event => handleClick(event, row.name)}
+                    onClick={event => handleClick(event, row.id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.name}
+                    key={row.id}
                     selected={isItemSelected}
                   >
-                    {/*<TableCell padding="checkbox">*/}
-                      {/*<Checkbox*/}
-                        {/*checked={isItemSelected}*/}
-                        {/*inputProps={{ 'aria-labelledby': labelId }}*/}
-                      {/*/>*/}
-                    {/*</TableCell>*/}
-                    {/*<TableCell component="th" id={labelId} scope="row" padding="none">*/}
-                      {/*{row.name}*/}
-                    {/*</TableCell>*/}
-                    <TableCell align="right">{row.distributor}</TableCell>
-                    <TableCell align="right">{row.acctCreated}</TableCell>
-                    <TableCell align="right">{row.acctStatus}</TableCell>
-                    <TableCell align="right">{row.salesPage}</TableCell>
-                    <TableCell align="right">{row.balanceAvail}</TableCell>
-                    <TableCell align="right">{row.totalCollected}</TableCell>
-                    <TableCell align="right">{row.extra}</TableCell>
+                    <TableCell align="right">
+                      <div className={classes.profile}>
+                        <div className={classes.profileLeft}>
+                          <img src={sortedRowsDetail[index].picture} alt="" />
+                        </div>
+                        <div className={classes.profileRight}>
+                          <div>{sortedRowsDetail[index].distributor}</div>
+                          <div>{sortedRowsDetail[index].email}</div>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell align="right">{getFormatedDate(row.acctCreated)}</TableCell>
+                    <TableCell align="right">
+                      <div className={clsx(classes.status, row.acctStatus && classes.active)}>{row.acctStatus ? 'Active' : 'Inactive'}</div>
+                    </TableCell>
+                    <TableCell align="right"><div className={clsx(classes.sales, classes.status)}>{row.salesPage}</div></TableCell>
+                    <TableCell align="right">${row.balanceAvail}</TableCell>
+                    <TableCell align="right">${row.totalCollected}</TableCell>
+                    <TableCell align="right"><ThreeDots color="#9ea0a5"/></TableCell>
                   </TableRow>
                 );
               })}
@@ -351,15 +450,11 @@ export default function EnhancedTable() {
           </TableBody>
         </Table>
       </div>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
+      <div className={classes.pagination}>
+        <span onClick={() => handleChangePage(page - 1)}><IconLeft/></span>
+        <span>{page + 1}</span>
+        <span onClick={() => handleChangePage(page + 1)}><IconRight/></span>
+      </div>
     </div>
   );
 }

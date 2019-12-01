@@ -1,8 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from "@material-ui/core/Paper/Paper";
-import Button from "@material-ui/core/Button/Button";
-import { FilterIcon, DownloadIcon } from "../components/SvgIcons";
 
 const useStyles = makeStyles(theme => ({
   content: {

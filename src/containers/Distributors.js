@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from "@material-ui/core/Paper/Paper";
 import Button from "@material-ui/core/Button/Button";
 import { useResource } from 'rest-hooks';
-import Distributor from '../rest-api/Distributor';
+import DistributorResource from '../rest-api/Distributor.ts';
 import CustomTable from "../components/CustomTable";
 import { FilterIcon, DownloadIcon } from "../components/SvgIcons";
 
@@ -57,8 +57,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Distributors() {
+  const [page, setPage] = React.useState(1);
   const classes = useStyles();
-  const distributors = useResource(Distributor.detailShape(), { id: 1 });
+  const results = useResource(DistributorResource.listShape(), { _page: page, limit: 50, _sort: 'balance', order: 'asc' });
 
   return (
     <main className={classes.content}>
@@ -85,7 +86,7 @@ function Distributors() {
         </div>
       </Paper>
       <Paper className={classes.table}>
-        <CustomTable />
+        <CustomTable distributors={results} getDistributors={(page) => setPage(page)} />
       </Paper>
     </main>
   )
