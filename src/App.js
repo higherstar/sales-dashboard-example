@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -13,6 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Distributors from './containers/Distributors';
+import { SupportIcon, SettingsIcon, ProductsIcon, CustomersIcon, SalesIcon, HomeIcon } from "./components/SvgIcons";
 
 import './App.css';
 
@@ -23,9 +25,10 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
   },
   appBar: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    width: '100%',
+    marginLeft: 0,
+    zIndex: 1300
   },
   drawer: {
     width: drawerWidth,
@@ -33,8 +36,15 @@ const useStyles = makeStyles(theme => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: '#373737'
+  },
+  customAppBar: {
+    boxShadow: '0px 1px 0px #0000000F'
   },
   toolbar: theme.mixins.toolbar,
+  customToolbar: {
+    boxShadow: 'none !important'
+  },
   contentContainer: {
     marginTop: 70,
     width: '100%'
@@ -47,10 +57,8 @@ function App({ history }) {
     <div className="App">
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-
-          </Toolbar>
+        <AppBar position="fixed" className={clsx(classes.appBar, classes.customAppBar)}>
+          <Toolbar/>
         </AppBar>
         <Drawer
           className={classes.drawer}
@@ -60,11 +68,11 @@ function App({ history }) {
           }}
           anchor="left"
         >
-          <div className={classes.toolbar} />
+          <div className={clsx(classes.toolbar, classes.customToolbar)} />
           <Divider />
           <List>
             <ListItem button onClick={() => history.push('/distributors')}>
-              <ListItemIcon><InboxIcon /></ListItemIcon>
+              <ListItemIcon><HomeIcon/></ListItemIcon>
               <ListItemText primary="Distributors" />
             </ListItem>
             <ListItem button onClick={() => history.push('/sales-page')}>

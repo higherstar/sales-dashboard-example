@@ -15,6 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import { FilterIcon, DownloadIcon } from "../SvgIcons";
 
 function createData(distributor, acctCreated, acctStatus, salesPage, balanceAvail, totalCollected, extra) {
   return { distributor, acctCreated, acctStatus, salesPage, balanceAvail, totalCollected, extra };
@@ -78,7 +79,7 @@ function EnhancedTableHead(props) {
 
   return (
     <TableHead>
-      <TableRow>
+      <TableRow className={classes.tableHeader}>
         {/*<TableCell padding="checkbox">*/}
           {/*<Checkbox*/}
             {/*indeterminate={numSelected > 0 && numSelected < rowCount}*/}
@@ -89,8 +90,9 @@ function EnhancedTableHead(props) {
         {/*</TableCell>*/}
         {headCells.map(headCell => (
           <TableCell
+            style={{textAlign: headCell.id === 'distributor' ? 'left' : 'right'}}
             key={headCell.id}
-            align={'right'}
+            align={'left'}
             padding={'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -188,7 +190,6 @@ EnhancedTableToolbar.propTypes = {
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing(3),
   },
   paper: {
     width: '100%',
@@ -196,6 +197,12 @@ const useStyles = makeStyles(theme => ({
   },
   table: {
     minWidth: 750,
+    '& > th': {
+      borderBottom: '1px solid #EAEDF3 !important'
+    },
+    '& > td': {
+      borderBottom: '1px solid #EAEDF3 !important'
+    }
   },
   tableWrapper: {
     overflowX: 'auto',
@@ -211,6 +218,18 @@ const useStyles = makeStyles(theme => ({
     top: 20,
     width: 1,
   },
+  tableHeader: {
+    '& > th': {
+      color: '#9EA0A5',
+      fontWeight: 'normal',
+      '&:first-child': {
+        paddingLeft: 30
+      },
+      '&:last-child': {
+        paddingRight: 30
+      }
+    }
+  }
 }));
 
 export default function EnhancedTable() {

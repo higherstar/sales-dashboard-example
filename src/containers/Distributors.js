@@ -2,9 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from "@material-ui/core/Paper/Paper";
 import Button from "@material-ui/core/Button/Button";
-import DeleteIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import CustomTable from "../components/CustomTable";
-import { FilterIcon, DownloadIcon, ThreeDots } from "../components/SvgIcons";
+import { FilterIcon, DownloadIcon } from "../components/SvgIcons";
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -16,10 +15,12 @@ const useStyles = makeStyles(theme => ({
   },
   mainTitle: {
     padding: theme.spacing(1, 3),
-    marginTop: theme.spacing(1),
+    marginBottom: 5,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    boxShadow: '0px 1px 3px #0000000A',
+    border: '1px solid #EAEDF3',
     '& button': {
       backgroundColor: 'white',
       border: 'solid 1px #D8DCE6',
@@ -31,6 +32,9 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: 'white'
       }
     }
+  },
+  table: {
+
   },
   titleLeft: {
     '& > span:first-child': {
@@ -54,7 +58,6 @@ function Distributors() {
   const classes = useStyles();
   return (
     <main className={classes.content}>
-      <div className={classes.toolbar} />
       <Paper className={classes.mainTitle}>
         <div className={classes.titleLeft}>
           <span>Distributors</span>
@@ -77,7 +80,7 @@ function Distributors() {
           </Button>
         </div>
       </Paper>
-      <Paper className={classes.mainTitle}>
+      <Paper className={classes.table}>
         <CustomTable />
       </Paper>
     </main>
