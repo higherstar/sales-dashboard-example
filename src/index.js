@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from "react-router-dom";
+import { CacheProvider } from 'rest-hooks';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <CacheProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </CacheProvider>,
   document.getElementById('root')
 );
 

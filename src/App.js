@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import { NetworkErrorBoundary } from 'rest-hooks';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -11,6 +12,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Sales from './containers/Sales';
 import Customers from './containers/Customers';
 import Settings from './containers/Settings';
@@ -62,8 +64,14 @@ const useStyles = makeStyles(theme => ({
     width: '100%'
   },
   leftMenu: {
+    padding: 8,
     '& > div': {
-      padding: 8,
+      padding: '4px 0',
+      margin: '8px 0',
+      borderRadius: 4,
+      '&:hover': {
+        backgroundColor: '#257A91'
+      },
       '& > div:first-child': {
         minWidth: 45,
         '& > svg': {
@@ -81,7 +89,9 @@ function App({ history }) {
       <div className={classes.root}>
         <CssBaseline />
         <AppBar position="fixed" className={clsx(classes.appBar, classes.customAppBar)}>
-          <Toolbar/>
+          <Toolbar>
+            <img width={109} src="/img/logo.png" />
+          </Toolbar>
         </AppBar>
         <Drawer
           className={classes.drawer}
@@ -115,7 +125,7 @@ function App({ history }) {
               <ListItemText primary="Customers" />
             </ListItem>
           </List>
-          <Divider />
+          <Divider style={{backgroundColor: '#888'}} />
           <List className={classes.leftMenu}>
             <ListItem button onClick={() => history.push('/settings')}>
               <ListItemIcon><SettingsIcon/></ListItemIcon>
@@ -129,15 +139,19 @@ function App({ history }) {
         </Drawer>
 
         <div className={classes.contentContainer}>
-          <Switch>
-            <Route path="/home" component={Home}/>
-            <Route path="/distributors" component={Distributors}/>
-            <Route path="/sales-page" component={Sales}/>
-            <Route path="/products" component={Products}/>
-            <Route path="/customers" component={Customers}/>
-            <Route path="/settings" component={Settings}/>
-            <Route path="/support" component={Support}/>
-          </Switch>
+          <Suspense fallback={<CircularProgress />}>
+            <NetworkErrorBoundary>
+              <Switch>
+                <Route path="/home" component={Home}/>
+                <Route path="/distributors" component={Distributors}/>
+                <Route path="/sales-page" component={Sales}/>
+                <Route path="/products" component={Products}/>
+                <Route path="/customers" component={Customers}/>
+                <Route path="/settings" component={Settings}/>
+                <Route path="/support" component={Support}/>
+              </Switch>
+            </NetworkErrorBoundary>
+          </Suspense>
         </div>
       </div>
     </div>

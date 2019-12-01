@@ -66,12 +66,6 @@ export const ProductsIcon = () => (
 
 export const CustomersIcon = () => (
   <svg width="16" height="16" viewBox="0 0 16 16">
-    {/*<defs>*/}
-      {/*<style>.a{fill:none;}.b{clip - path:url(#a);}.c{fill:#fff;}</style>*/}
-      {/*<clipPath id="a" fill="none">*/}
-        {/*<rect className="a" width="16" height="16"/>*/}
-      {/*</clipPath>*/}
-    {/*</defs>*/}
     <g className="b" clip="path:url(#a)">
       <path fill="#fff" className="c"
         d="M702.548-169.7a.964.964,0,0,1,.3.7v14a.966.966,0,0,1-.3.7.96.96,0,0,1-.7.3h-12a.959.959,0,0,1-.7-.3.962.962,0,0,1-.3-.7v-14a.96.96,0,0,1,.3-.7.959.959,0,0,1,.7-.3h12A.96.96,0,0,1,702.548-169.7Zm-12.7,14.7h2v-14h-2Zm12-14h-9v14h9Zm-2.062,9.812q0,.876-1.235,1.219a4.523,4.523,0,0,1-2.469,0q-1.234-.344-1.234-1.219a3.82,3.82,0,0,1,.719-2.344,2.122,2.122,0,0,1,1.75-.968,2.126,2.126,0,0,1,1.75.968A3.833,3.833,0,0,1,699.783-159.188Zm-2.5-6.969a1.476,1.476,0,0,1,1.078.454,1.476,1.476,0,0,1,.453,1.078,1.423,1.423,0,0,1-.453,1.062,1.5,1.5,0,0,1-1.078.438,1.445,1.445,0,0,1-1.063-.438,1.442,1.442,0,0,1-.437-1.062v-.625l.437-.453A1.423,1.423,0,0,1,697.283-166.157Zm6.562.157h1v-3h-1Zm0,4h1v-3h-1Zm0,4h1v-3h-1Z"
@@ -109,7 +103,7 @@ export const HomeIcon = () => (
 );
 
 export const StarIcon = () => (
-  <svg className="MuiSvgIcon-root jss4353" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+  <svg width="19" height="19" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
     <path fill="white" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
     <path fill="none" d="M0 0h24v24H0z"/>
   </svg>

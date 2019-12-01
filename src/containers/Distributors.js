@@ -2,6 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from "@material-ui/core/Paper/Paper";
 import Button from "@material-ui/core/Button/Button";
+import { useResource } from 'rest-hooks';
+import Distributor from '../rest-api/Distributor';
 import CustomTable from "../components/CustomTable";
 import { FilterIcon, DownloadIcon } from "../components/SvgIcons";
 
@@ -56,6 +58,8 @@ const useStyles = makeStyles(theme => ({
 
 function Distributors() {
   const classes = useStyles();
+  const distributors = useResource(Distributor.detailShape(), { id: 1 });
+
   return (
     <main className={classes.content}>
       <Paper className={classes.mainTitle}>
