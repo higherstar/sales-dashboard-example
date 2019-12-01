@@ -11,11 +11,22 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import Sales from './containers/Sales';
+import Customers from './containers/Customers';
+import Settings from './containers/Settings';
+import Products from './containers/Products';
+import Support from './containers/Support';
 import Distributors from './containers/Distributors';
-import { SupportIcon, SettingsIcon, ProductsIcon, CustomersIcon, SalesIcon, HomeIcon } from "./components/SvgIcons";
-
+import Home from './containers/Home';
+import {
+  SupportIcon,
+  SettingsIcon,
+  ProductsIcon,
+  CustomersIcon,
+  SalesIcon,
+  HomeIcon,
+  StarIcon
+} from "./components/SvgIcons";
 import './App.css';
 
 const drawerWidth = 240;
@@ -36,7 +47,8 @@ const useStyles = makeStyles(theme => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: '#373737'
+    backgroundColor: '#373737',
+    color: 'white'
   },
   customAppBar: {
     boxShadow: '0px 1px 0px #0000000F'
@@ -48,6 +60,17 @@ const useStyles = makeStyles(theme => ({
   contentContainer: {
     marginTop: 70,
     width: '100%'
+  },
+  leftMenu: {
+    '& > div': {
+      padding: 8,
+      '& > div:first-child': {
+        minWidth: 45,
+        '& > svg': {
+          margin: '0 auto'
+        }
+      }
+    }
   }
 }));
 
@@ -70,32 +93,36 @@ function App({ history }) {
         >
           <div className={clsx(classes.toolbar, classes.customToolbar)} />
           <Divider />
-          <List>
-            <ListItem button onClick={() => history.push('/distributors')}>
+          <List className={classes.leftMenu}>
+            <ListItem button onClick={() => history.push('/home')}>
               <ListItemIcon><HomeIcon/></ListItemIcon>
+              <ListItemText primary="Home" />
+            </ListItem>
+            <ListItem button onClick={() => history.push('/distributors')}>
+              <ListItemIcon><StarIcon/></ListItemIcon>
               <ListItemText primary="Distributors" />
             </ListItem>
             <ListItem button onClick={() => history.push('/sales-page')}>
-              <ListItemIcon><MailIcon /></ListItemIcon>
+              <ListItemIcon><SalesIcon/></ListItemIcon>
               <ListItemText primary="Sales Page" />
             </ListItem>
             <ListItem button onClick={() => history.push('/products')}>
-              <ListItemIcon><MailIcon /></ListItemIcon>
+              <ListItemIcon><ProductsIcon/></ListItemIcon>
               <ListItemText primary="Products" />
             </ListItem>
             <ListItem button onClick={() => history.push('/customers')}>
-              <ListItemIcon><MailIcon /></ListItemIcon>
+              <ListItemIcon><CustomersIcon/></ListItemIcon>
               <ListItemText primary="Customers" />
             </ListItem>
           </List>
           <Divider />
-          <List>
+          <List className={classes.leftMenu}>
             <ListItem button onClick={() => history.push('/settings')}>
-              <ListItemIcon><MailIcon /></ListItemIcon>
+              <ListItemIcon><SettingsIcon/></ListItemIcon>
               <ListItemText primary="Settings" />
             </ListItem>
             <ListItem button onClick={() => history.push('/support')}>
-              <ListItemIcon><MailIcon /></ListItemIcon>
+              <ListItemIcon><SupportIcon/></ListItemIcon>
               <ListItemText primary="Support" />
             </ListItem>
           </List>
@@ -103,7 +130,13 @@ function App({ history }) {
 
         <div className={classes.contentContainer}>
           <Switch>
+            <Route path="/home" component={Home}/>
             <Route path="/distributors" component={Distributors}/>
+            <Route path="/sales-page" component={Sales}/>
+            <Route path="/products" component={Products}/>
+            <Route path="/customers" component={Customers}/>
+            <Route path="/settings" component={Settings}/>
+            <Route path="/support" component={Support}/>
           </Switch>
         </div>
       </div>
