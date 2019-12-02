@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/sales-dashboard-example/static/css/main.b100e6da.chunk.css",
+    "main.js": "/sales-dashboard-example/static/js/main.526067eb.chunk.js",
+    "main.js.map": "/sales-dashboard-example/static/js/main.526067eb.chunk.js.map",
+    "runtime-main.js": "/sales-dashboard-example/static/js/runtime-main.5d834773.js",
+    "runtime-main.js.map": "/sales-dashboard-example/static/js/runtime-main.5d834773.js.map",
+    "static/js/2.9b476d28.chunk.js": "/sales-dashboard-example/static/js/2.9b476d28.chunk.js",
+    "static/js/2.9b476d28.chunk.js.map": "/sales-dashboard-example/static/js/2.9b476d28.chunk.js.map",
+    "index.html": "/sales-dashboard-example/index.html",
+    "precache-manifest.0bbe22e408c68feb51b405bf0f48f0d7.js": "/sales-dashboard-example/precache-manifest.0bbe22e408c68feb51b405bf0f48f0d7.js",
+    "service-worker.js": "/sales-dashboard-example/service-worker.js",
+    "static/css/main.b100e6da.chunk.css.map": "/sales-dashboard-example/static/css/main.b100e6da.chunk.css.map"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5d834773.js",
+    "static/js/2.9b476d28.chunk.js",
+    "static/css/main.b100e6da.chunk.css",
+    "static/js/main.526067eb.chunk.js"
+  ]
+}
